@@ -1,0 +1,7 @@
+version: '3'
+
+services:
+  doctoc:
+    build:
+      context: .
+    image: finagin/pint
