@@ -1,7 +1,6 @@
-version: '3'
-
 services:
-  doctoc:
-    build:
-      context: .
-    image: finagin/pint
+    pint:
+        image: finagin/pint
+        build:
+            args:
+                COMPOSER_VERSION: ${COMPOSER_VERSION:-lts}
