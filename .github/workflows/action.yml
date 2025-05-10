@@ -15,12 +15,12 @@ jobs:
         run: |
           echo "fake" > current-sha
       - name: Upload current SHA
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: current-sha
           path: current-sha
       - name: Download current SHA
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: current-sha
       - name: Output Laravel Pint SHAs
@@ -100,7 +100,7 @@ jobs:
         run: |
           echo "${{ needs.exporter.outputs.actual }}" > current-sha
       - name: Upload current SHA
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: current-sha
           path: current-sha
