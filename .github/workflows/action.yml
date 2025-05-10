@@ -6,6 +6,7 @@ on:
 jobs:
   exporter:
     name: Export Laravel Pint SHAs
+    runs-on: ubuntu-latest
     outputs:
       current: ${{ steps.exporter.outputs.current }}
       actual: ${{ steps.exporter.outputs.actual }}
