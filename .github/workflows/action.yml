@@ -13,6 +13,7 @@ jobs:
     steps:
       - name: Download current SHA
         run: |
+          echo "https://api.github.com/user/packages/${{ github.repository_owner }}/${{ github.repository }}/versions"
           curl -L \
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer ${{ github.token }}" \
