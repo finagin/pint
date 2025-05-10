@@ -26,9 +26,9 @@ jobs:
       - name: Output Laravel Pint SHAs
         id: exporter
         run: |
-          echo "actual=$(
-            curl https://repo.packagist.org/p2/laravel/pint.json
-            | jq '.packages.["laravel/pint"][0].source.reference'
+          echo "actual=$( \
+            curl https://repo.packagist.org/p2/laravel/pint.json \
+            | jq '.packages.["laravel/pint"][0].source.reference' \
           )" >> $GITHUB_OUTPUT
           echo "current=$(cat current-sha)" >> $GITHUB_OUTPUT
 
