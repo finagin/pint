@@ -4,11 +4,32 @@ on:
   schedule: [ { cron: "0 0 * * *" } ]
 
 jobs:
+  exporter:
+    name: Export Laravel Pint SHAs
+    outputs:
+      current: ${{ steps.exporter.outputs.current }}
+      actual: ${{ steps.exporter.outputs.actual }}
+    steps:
+      - name: Download current SHA
+        uses: actions/download-artifact@v3
+        with:
+          name: current-sha
+      - name: Output Laravel Pint SHAs
+        id: exporter
+        run: |
+          echo "actual=$(
+            curl https://repo.packagist.org/p2/laravel/pint.json
+            | jq '.packages.["laravel/pint"][0].source.reference'
+          )" >> $GITHUB_OUTPUT
+          echo "current=$(cat current-sha)" >> $GITHUB_OUTPUT
+
   docker-build-and-publish:
     name: 🐳 Build and Publish Docker Image
     runs-on: ubuntu-latest
     permissions:
       packages: write
+    needs: exporter
+    if: ${{ needs.exporter.outputs.current != needs.exporter.outputs.actual }}
     steps:
       - name: 📂 Checkout
         uses: actions/checkout@v4
@@ -66,3 +87,11 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha,scope=${{ github.repository }}
           cache-to: type=gha,mode=max,scope=${{ github.repository }}
+      - name: Save current sha
+        run: |
+          echo "${{ needs.exporter.outputs.actual }}" > current-sha
+      - name: Upload current SHA
+        uses: actions/upload-artifact@v3
+        with:
+          name: current-sha
+          path: current-sha
