@@ -11,6 +11,14 @@ jobs:
       current: ${{ steps.exporter.outputs.current }}
       actual: ${{ steps.exporter.outputs.actual }}
     steps:
+      - name: Save current sha
+        run: |
+          echo "fake" > current-sha
+      - name: Upload current SHA
+        uses: actions/upload-artifact@v3
+        with:
+          name: current-sha
+          path: current-sha
       - name: Download current SHA
         uses: actions/download-artifact@v3
         with:
